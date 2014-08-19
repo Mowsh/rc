@@ -9,7 +9,14 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Plugins
-Plugin 'bling/vim-airline'
+Plugin 'bling/vim-airline'  " Better status line
+Plugin 'tpope/vim-fugitive'  " Git stuff
+Plugin 'scrooloose/nerdtree'  " File tree
+Plugin 'kien/ctrlp.vim'  " Fuzzy searching for opening files
+" Plugin 'edkolev/tmuxline.vim'  " Copy status line colours to tmux
+Plugin 'tpope/vim-surround'  " Surround text in quotes, brackets etc.
+Plugin 'Valloric/YouCompleteMe'  " Code completion engine
+Plugin 'marijnh/tern_for_vim'  " JavaScript completion
 
 call vundle#end()
 filetype plugin indent on
@@ -32,6 +39,7 @@ let g:airline_powerline_fonts = 1  " Enable patched fonts
 set laststatus=2  " Always show status bar
 set noshowmode  " Disable default mode indicator
 set timeoutlen=50  " Fix delay when leaving insert mode
+let g:airline#extensions#tabline#enabled = 1  " Enable tabline
 
 " Misc options
 set backspace=indent,eol,start  " Fix backspace on newlines and tabs
@@ -50,6 +58,7 @@ set undodir=~/.vim/undo  " Somewhere to store persistent undo
 set undofile  " Persistent undo
 vnoremap . :norm.<CR>  " Allow . repeat to run on visual selections
 set t_Co=256  " Enable 256 colours
+set nowrap  " Disable text wrapping
 
 " Line numbers
 set number  " Show line numbers
@@ -82,6 +91,7 @@ set encoding=utf-8
 setglobal fileencoding=utf-8
 set nobomb
 set fileencodings=ucs-bom,utf-8,iso-8859-1
+
 " GUI and mouse
 set ttymouse=xterm2
 set mouse=a
@@ -110,7 +120,7 @@ match OverLength /\%81v.\+/
 " Function to toggle relative/absolute line numbers
 function! NumberToggle()
     if(&relativenumber == 1)
-        set number
+        set norelativenumber
     else
         set relativenumber
     endif
@@ -120,10 +130,10 @@ endfunc
 nnoremap <C-n> :call NumberToggle()<CR>
 
 " Toggle line number depending on if vim has focus
-autocmd FocusLost * :set number
+autocmd FocusLost * :set norelativenumber
 autocmd FocusGained * :set relativenumber
 
 " Toggle line number if in insert mode
-autocmd InsertEnter * :set number
+autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
