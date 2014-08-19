@@ -1,9 +1,6 @@
 # Path to oh-my-zsh
 export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load
-ZSH_THEME="blinks"
-
 # Show ... while waiting on autocomplete
 COMPLETION_WAITING_DOTS="true"
 
@@ -60,6 +57,27 @@ plugins=(git brew sudo tmuxinator)
 
 source $ZSH/oh-my-zsh.sh
 
+# Prompt
+
+function _prompt_char() {
+  if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
+    echo "%{%F{blue}%}±%{%f%k%b%} "
+  else
+    echo ''
+  fi
+}
+
+ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%k%b%K{${black}}%B%F{green}%}]"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%k%b%}"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+PROMPT='%{%f%k%b%}
+%{%K{${black}}%B%F{green}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{${black}}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
+$(_prompt_char)%# '
+
+RPROMPT='%D{%H:%M:%S}'
+
 # Custom alias
 export EDITOR=/usr/local/bin/vim
 export PAGER=less
@@ -68,7 +86,3 @@ export GOPATH=/Users/mowsh/gocode
 
 # Enable tmuxinator plugin completion for mux shortcut
 alias mux=tmuxinator
-
-# Clear the screen when a session starts
-clear
-

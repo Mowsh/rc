@@ -1,62 +1,99 @@
 set nocompatible
+filetype off
 
-" Fix backspace
-set backspace=indent,eol,start
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" Plugins
+Plugin 'bling/vim-airline'
+
+call vundle#end()
+filetype plugin indent on
+
+" Disable arrow keys until I get better at HJKL
+inoremap  <Up>     <NOP>
+inoremap  <Down>   <NOP>
+inoremap  <Left>   <NOP>
+inoremap  <Right>  <NOP>
+noremap   <Up>     <NOP>
+noremap   <Down>   <NOP>
+noremap   <Left>   <NOP>
+noremap   <Right>  <NOP>
+
+" Syntax Highlighting
+syntax enable
+
+" Airline config
+let g:airline_powerline_fonts = 1  " Enable patched fonts
+set laststatus=2  " Always show status bar
+set noshowmode  " Disable default mode indicator
+set timeoutlen=50  " Fix delay when leaving insert mode
+
+" Misc options
+set backspace=indent,eol,start  " Fix backspace on newlines and tabs
+set showcmd  " Show information about the current command
+set display+=lastline  " Show the last line even if it doesn't fit on screen
+set display+=uhex  " Show hex code for nonprintable characters
+set history=1000  " Store 1000 commands in history
+set lazyredraw  " Why not
+set autoread  " Reload files if changed outside of vim
+set scrolloff=2  " 2 lines of padding at the bottom of files
+set foldmethod=indent  " Use indentation levels for code folding (lua/python)
+set nrformats-=octal  " Prevent vim from incorrectly detecting number types
+set nobackup  " Needed for writebackup
+set writebackup  " Backup file while overwriting, delete backup when done
+set undodir=~/.vim/undo  " Somewhere to store persistent undo
+set undofile  " Persistent undo
+vnoremap . :norm.<CR>  " Allow . repeat to run on visual selections
+set t_Co=256  " Enable 256 colours
+
+" Line numbers
 set number  " Show line numbers
-set history=1000  " 1000 commands history scrollback
-set laststatus=2  " Always show status
-set lazyredraw
-set matchtime=2
-set ruler  " Show the cursor position
-set showcmd  " Show incomplete commands
-set showmatch  " Show matches while typing
-set relativenumber  " Show line numbers relative to cursor position
-set display=lastline,uhex
+set ruler  " Show cursor position
+set relativenumber  " Show relative line numbers in the gutter
+highlight LineNr ctermbg=black
+
+" Matching brackets
+set showmatch  " Show matching brackets
+set matchtime=2  " Only flash matching bracket for .2 of a second
+syntax on  " Syntax hi
 
 " Search
-set incsearch  " Incremental searching
-set ignorecase  " Ignore case..
-set smartcase  " ..unless there's a capital letter
+set incsearch  " Search as I type
+set hlsearch  " Highlight search matches
+set ignorecase  " Ignore case of searches
+set smartcase  " ...unless there's an uppercase letter in the query
 
 " Whitespace
-set autoindent  " Indent on <CR>
-set shiftwidth=4
+set autoindent  " Indent on newlines
+set expandtab  " Use spaces for tabs
+set shiftwidth=4  " Default to 4 space tabs
+set tabstop=4
 set softtabstop=4
-set expandtab
-set shiftround  " Only indent to multiples of 4
-set smarttab
-set fileformats=unix,dos  " Prefer unix linebreaks
-
-" GUI
-set ttymouse=xterm2
-set mouse=a
-set guifont=Menlo\ 11
+set shiftround
+set fileformats=unix,dos  " Prefer unix line endings
 
 " Unicode
 set encoding=utf-8
 setglobal fileencoding=utf-8
 set nobomb
 set fileencodings=ucs-bom,utf-8,iso-8859-1
+" GUI and mouse
+set ttymouse=xterm2
+set mouse=a
+set guifont=Monaco\ for\ Powerline\ 12
 
-" Tab completion
-set wildmenu  " zsh style completion menu
+" Tab completion on vim command line
+set wildmenu  " Enable zsh style completion menu
 set wildmode=full
+
+" Other completion
 set complete-=i
 set completeopt-=preview
-
-" Other
-set autoread  " Reload changed files
-set scrolloff=2  " 2 extra lines scroll padding
-set foldmethod=indent  " code folding based on indents for lua and python
-set foldlevel=99
-set timeoutlen=1000
-set ttimeoutlen=100 
-set nrformats-=octal
-set nobackup
-set writebackup
-set undodir=~/.vim/undo
-set undofile
 
 " Leader
 let mapleader = ","
@@ -64,62 +101,29 @@ let g:mapleader = ","
 
 " -/= to navigate tabs
 noremap - :tabprevious<CR>
-noremap = :tabnext<CR>
+noremap = :tabprevious<CR>
 
-" Allow . repeat to run on visual selections
-vnoremap . :norm.<CR>
+" Highlight characters past the 80 column limit
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 
-" Enable code highlighting
-syntax on
+" Function to toggle relative/absolute line numbers
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
 
-" Enable 256 colors
-set t_Co=256
+" Toggle line number type on ctrl+n
+nnoremap <C-n> :call NumberToggle()<CR>
 
-" Set colour scheme
-colorscheme solarized
+" Toggle line number depending on if vim has focus
+autocmd FocusLost * :set number
+autocmd FocusGained * :set relativenumber
 
-" Close vim if the only window left open is NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" Toggle line number if in insert mode
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
 
-" Required by Vundle while installing packages
-filetype off
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
-
-" Bundle 'Valloric/YouCompleteMe'
-" Bundle 'scrooloose/syntastic'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'northsky'
-Bundle 'scrooloose/nerdtree'
-
-" My bundles here:
-"
-" original repos on GitHub
-" Bundle 'tpope/vim-fugitive'
-" Bundle 'Lokaltog/vim-easymotion'
-" Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Bundle 'tpope/vim-rails.git'
-" vim-scripts repos
-" Bundle 'L9'
-" Bundle 'FuzzyFinder'
-" non-GitHub repos
-" Bundle 'git://git.wincent.com/command-t.git'
-" Git repos on your local machine (i.e. when working on your own plugin)
-" Bundle 'file:///Users/gmarik/path/to/plugin'
-" ...
-
-filetype plugin indent on     " required!
-"
-" Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install (update) bundles
-" :BundleSearch(!) foo - search (or refresh cache first) for foo
-" :BundleClean(!)      - confirm (or auto-approve) removal of unused bundles
-"
-" see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle commands are not allowed.
