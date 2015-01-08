@@ -11,12 +11,14 @@ Plugin 'gmarik/Vundle.vim'
 " Plugins
 Plugin 'bling/vim-airline'  " Better status line
 Plugin 'tpope/vim-fugitive'  " Git stuff
-Plugin 'scrooloose/nerdtree'  " File tree
 Plugin 'kien/ctrlp.vim'  " Fuzzy searching for opening files
-" Plugin 'edkolev/tmuxline.vim'  " Copy status line colours to tmux
 Plugin 'tpope/vim-surround'  " Surround text in quotes, brackets etc.
 Plugin 'Valloric/YouCompleteMe'  " Code completion engine
 Plugin 'marijnh/tern_for_vim'  " JavaScript completion
+Plugin 'pangloss/vim-javascript'  " JavaScript Syntax Highlighting
+Plugin 'scrooloose/syntastic'  " Syntax checking
+Plugin 'tpope/vim-commentary'  " Comment stuff out
+Plugin 'airblade/vim-gitgutter'  " Show git diff in the gutter
 
 call vundle#end()
 filetype plugin indent on
@@ -33,13 +35,28 @@ noremap   <Right>  <NOP>
 
 " Syntax Highlighting
 syntax enable
+set background=dark
+colorscheme molokai
 
 " Airline config
 let g:airline_powerline_fonts = 1  " Enable patched fonts
+let g:airline_theme = 'powerlineish'
 set laststatus=2  " Always show status bar
-set noshowmode  " Disable default mode indicator
+" set noshowmode  " Disable default mode indicator
 set timeoutlen=50  " Fix delay when leaving insert mode
-let g:airline#extensions#tabline#enabled = 1  " Enable tabline
+" let g:airline#extensions#tabline#enabled = 1  " Enable tabline
+
+" Syntastic config
+let g:syntastic_check_on_wq = 0  " Don't run a check on :wq
+let g:syntastic_javascript_checkers = ['jshint']
+
+" CtrlP config
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site|bower_components|node_modules)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}  " Ignore vcs directories and _site
+
+let g:ctrlp_working_path_mode = 'r'  " Use nearest .git directory as root
 
 " Misc options
 set backspace=indent,eol,start  " Fix backspace on newlines and tabs
@@ -50,7 +67,7 @@ set history=1000  " Store 1000 commands in history
 set lazyredraw  " Why not
 set autoread  " Reload files if changed outside of vim
 set scrolloff=2  " 2 lines of padding at the bottom of files
-set foldmethod=indent  " Use indentation levels for code folding (lua/python)
+" set foldmethod=indent  " Use indentation levels for code folding (lua/python)
 set nrformats-=octal  " Prevent vim from incorrectly detecting number types
 set nobackup  " Needed for writebackup
 set writebackup  " Backup file while overwriting, delete backup when done
@@ -69,11 +86,10 @@ highlight LineNr ctermbg=black
 " Matching brackets
 set showmatch  " Show matching brackets
 set matchtime=2  " Only flash matching bracket for .2 of a second
-syntax on  " Syntax hi
+syntax on  " Syntax highlighing
 
 " Search
 set incsearch  " Search as I type
-set hlsearch  " Highlight search matches
 set ignorecase  " Ignore case of searches
 set smartcase  " ...unless there's an uppercase letter in the query
 
@@ -85,6 +101,8 @@ set tabstop=4
 set softtabstop=4
 set shiftround
 set fileformats=unix,dos  " Prefer unix line endings
+set listchars=tab:↹·,extends:⇉,precedes:⇇,trail:·
+set list
 
 " Unicode
 set encoding=utf-8
