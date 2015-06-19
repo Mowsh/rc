@@ -20,6 +20,7 @@ Plugin 'scrooloose/syntastic'  " Syntax checking
 Plugin 'tpope/vim-commentary'  " Comment stuff out
 Plugin 'airblade/vim-gitgutter'  " Show git diff in the gutter
 Plugin 'Yggdroot/indentLine'  " Show indent levels as lines
+Plugin 'Lokaltog/vim-easymotion'  " Quickly move around files
 
 call vundle#end()
 filetype plugin indent on
@@ -65,6 +66,9 @@ let g:ctrlp_custom_ignore = {
 \}  " Ignore vcs directories and _site
 
 let g:ctrlp_working_path_mode = 'r'  " Use nearest .git directory as root
+
+" EasyMotion config
+map <Leader> <Plug>(easymotion-prefix)
 
 " Misc options
 set backspace=indent,eol,start  " Fix backspace on newlines and tabs
