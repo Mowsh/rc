@@ -19,6 +19,7 @@ Plugin 'pangloss/vim-javascript'  " JavaScript Syntax Highlighting
 Plugin 'scrooloose/syntastic'  " Syntax checking
 Plugin 'tpope/vim-commentary'  " Comment stuff out
 Plugin 'airblade/vim-gitgutter'  " Show git diff in the gutter
+Plugin 'Yggdroot/indentLine'  " Show indent levels as lines
 
 call vundle#end()
 filetype plugin indent on
@@ -131,7 +132,11 @@ let g:mapleader = ","
 noremap - :tabprevious<CR>
 noremap = :tabprevious<CR>
 
+" Show a line on each indent
+let g:indentLine_char = ''
+
 " Highlight characters past the 80 column limit
+let g:columnLine_char = ''
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 
