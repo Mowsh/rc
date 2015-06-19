@@ -34,6 +34,13 @@ noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
 
+" Leader
+let mapleader=','
+let g:mapleader=','
+map <space> ,
+set notimeout
+set ttimeout
+
 " Syntax Highlighting
 syntax enable
 set background=dark
@@ -123,10 +130,6 @@ set wildmode=full
 " Other completion
 set complete-=i
 set completeopt-=preview
-
-" Leader
-let mapleader = ","
-let g:mapleader = ","
 
 " -/= to navigate tabs
 noremap - :tabprevious<CR>
