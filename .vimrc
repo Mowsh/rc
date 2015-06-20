@@ -125,7 +125,11 @@ set fileencodings=ucs-bom,utf-8,iso-8859-1
 " GUI and mouse
 set ttymouse=xterm2
 set mouse=a
-set guifont=Monaco\ for\ Powerline\ 12
+" TODO: Font name is too long for Windows
+set guifont=Monaco\ for\ Powerline\ With\ Indent\ Lines:h12
+set linespace=-1
+set guioptions-=L  " Remove left scrollbar
+set guioptions-=r  " Remove right scrollbar
 
 " Tab completion on vim command line
 set wildmenu  " Enable zsh style completion menu
