@@ -45,11 +45,11 @@ set ttimeout
 " Syntax Highlighting
 syntax enable
 set background=dark
-colorscheme molokai
+colorscheme Tomorrow-Night-Blue
 
 " Airline config
 let g:airline_powerline_fonts = 1  " Enable patched fonts
-let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'tomorrow'
 set laststatus=2  " Always show status bar
 " set noshowmode  " Disable default mode indicator
 set timeoutlen=50  " Fix delay when leaving insert mode
