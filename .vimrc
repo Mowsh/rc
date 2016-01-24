@@ -1,39 +1,36 @@
 set nocompatible
 filetype off
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Plugins (vim-plug)
+call plug#begin()
+Plug 'tpope/vim-sensible'  " Some sensible default settings
+Plug 'bling/vim-airline'  " Better status line
+Plug 'kien/ctrlp.vim'  " Fuzzy searching for opening files quickly
+Plug 'tpope/vim-surround'  " Surround text in braces, quotes etc
+Plug 'scrooloose/syntastic'  " Syntax hints
+Plug 'Lokaltog/vim-easymotion'  " Quickly move around files
+Plug 'myusuf3/numbers.vim'  " Smart toggle between relativenumbers
+Plug 'shougo/neocomplete.vim'  " Autocomplete where possible
+Plug 'tpope/vim-fugitive'  " Git integration
+Plug 'tpope/vim-commentary'  " Comment out with `gc`
+Plug 'luochen1990/rainbow'  " Colour parentheses depending on block depth
+Plug 'gcmt/wildfire.vim'  " Press enter to select closest text object
+Plug 'osyo-manga/vim-over'  " Better find and replace (autocompletion and highlighting)
+Plug 'airblade/vim-gitgutter'  " Git diff symbols in the gutter
+Plug 'nathanaelkane/vim-indent-guides'  " Indent guide lines
+Plug 'vim-scripts/sessionman.vim'  " Session saving and loading
+Plug 'terryma/vim-multiple-cursors'  " Sublime Text style multiple cursors
+Plug 'jiangmiao/auto-pairs'  " Automatically insert closing braces and quotes
+Plug 'tpope/vim-repeat'  " Repeat support for plugin mappings
+Plug 'bling/vim-bufferline'  " Show list of buffers in the statusline
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" Javascript
+Plug 'elzr/vim-json'  " JSON support
+Plug 'jelera/vim-javascript-syntax'  " JS syntax
+Plug 'ternjs/tern_for_vim'  " JS code analysis (completion/refactoring)
+call plug#end()
 
-" Plugins
-Plugin 'bling/vim-airline'  " Better status line
-Plugin 'tpope/vim-fugitive'  " Git stuff
-Plugin 'kien/ctrlp.vim'  " Fuzzy searching for opening files
-Plugin 'tpope/vim-surround'  " Surround text in quotes, brackets etc.
-Plugin 'Valloric/YouCompleteMe'  " Code completion engine
-Plugin 'marijnh/tern_for_vim'  " JavaScript completion
-Plugin 'pangloss/vim-javascript'  " JavaScript Syntax Highlighting
-Plugin 'scrooloose/syntastic'  " Syntax checking
-Plugin 'tpope/vim-commentary'  " Comment stuff out
-Plugin 'airblade/vim-gitgutter'  " Show git diff in the gutter
-Plugin 'Yggdroot/indentLine'  " Show indent levels as lines
-Plugin 'Lokaltog/vim-easymotion'  " Quickly move around files
-
-call vundle#end()
 filetype plugin indent on
-
-" Disable arrow keys until I get better at HJKL
-inoremap  <Up>     <NOP>
-inoremap  <Down>   <NOP>
-inoremap  <Left>   <NOP>
-inoremap  <Right>  <NOP>
-noremap   <Up>     <NOP>
-noremap   <Down>   <NOP>
-noremap   <Left>   <NOP>
-noremap   <Right>  <NOP>
 
 " Leader
 let mapleader=','
@@ -42,14 +39,16 @@ map <space> ,
 set notimeout
 set ttimeout
 
-" Syntax Highlighting
+" Syntax Highlighting / Theme
 syntax enable
 set background=dark
-colorscheme Tomorrow-Night-Blue
+colorscheme Tomorrow-Night-Eighties
+let g:airline_theme='tomorrow'
+set guifont=Monaco\ for\ Powerline:h12
+set linespace=-1
 
 " Airline config
 let g:airline_powerline_fonts = 1  " Enable patched fonts
-let g:airline_theme = 'tomorrow'
 set laststatus=2  " Always show status bar
 " set noshowmode  " Disable default mode indicator
 set timeoutlen=50  " Fix delay when leaving insert mode
@@ -57,7 +56,7 @@ set timeoutlen=50  " Fix delay when leaving insert mode
 
 " Syntastic config
 let g:syntastic_check_on_wq = 0  " Don't run a check on :wq
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jsxhint']
 
 " CtrlP config
 let g:ctrlp_custom_ignore = {
@@ -73,13 +72,10 @@ map <Leader> <Plug>(easymotion-prefix)
 " Misc options
 set backspace=indent,eol,start  " Fix backspace on newlines and tabs
 set showcmd  " Show information about the current command
-set display+=lastline  " Show the last line even if it doesn't fit on screen
 set display+=uhex  " Show hex code for nonprintable characters
-set history=1000  " Store 1000 commands in history
+set history=10000  " Store 10000 commands in history
 set lazyredraw  " Why not
-set autoread  " Reload files if changed outside of vim
 set scrolloff=2  " 2 lines of padding at the bottom of files
-" set foldmethod=indent  " Use indentation levels for code folding (lua/python)
 set nrformats-=octal  " Prevent vim from incorrectly detecting number types
 set nobackup  " Needed for writebackup
 set writebackup  " Backup file while overwriting, delete backup when done
@@ -98,7 +94,6 @@ highlight LineNr ctermbg=black
 " Matching brackets
 set showmatch  " Show matching brackets
 set matchtime=2  " Only flash matching bracket for .2 of a second
-syntax on  " Syntax highlighing
 
 " Search
 set incsearch  " Search as I type
@@ -125,9 +120,6 @@ set fileencodings=ucs-bom,utf-8,iso-8859-1
 " GUI and mouse
 set ttymouse=xterm2
 set mouse=a
-" TODO: Font name is too long for Windows
-set guifont=Monaco\ for\ Powerline\ With\ Indent\ Lines:h12
-set linespace=-1
 set guioptions-=L  " Remove left scrollbar
 set guioptions-=r  " Remove right scrollbar
 
@@ -140,34 +132,10 @@ set complete-=i
 set completeopt-=preview
 
 " -/= to navigate tabs
-noremap - :tabprevious<CR>
-noremap = :tabprevious<CR>
-
-" Show a line on each indent
-let g:indentLine_char = ''
+noremap - :bn<CR>
+noremap = :bp<CR>
 
 " Highlight characters past the 80 column limit
-let g:columnLine_char = ''
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
-
-" Function to toggle relative/absolute line numbers
-function! NumberToggle()
-    if(&relativenumber == 1)
-        set norelativenumber
-    else
-        set relativenumber
-    endif
-endfunc
-
-" Toggle line number type on ctrl+n
-nnoremap <C-n> :call NumberToggle()<CR>
-
-" Toggle line number depending on if vim has focus
-autocmd FocusLost * :set norelativenumber
-autocmd FocusGained * :set relativenumber
-
-" Toggle line number if in insert mode
-autocmd InsertEnter * :set norelativenumber
-autocmd InsertLeave * :set relativenumber
 
