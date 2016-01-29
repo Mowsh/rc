@@ -10,7 +10,7 @@ Plug 'tpope/vim-surround'  " Surround text in braces, quotes etc
 Plug 'scrooloose/syntastic'  " Syntax hints
 Plug 'Lokaltog/vim-easymotion'  " Quickly move around files
 Plug 'myusuf3/numbers.vim'  " Smart toggle between relativenumbers
-Plug 'shougo/neocomplete.vim'  " Autocomplete where possible
+Plug 'Valloric/YouCompleteMe'  " Autocompletion engine
 Plug 'tpope/vim-fugitive'  " Git integration
 Plug 'tpope/vim-commentary'  " Comment out with `gc`
 Plug 'luochen1990/rainbow'  " Colour parentheses depending on block depth
@@ -22,12 +22,10 @@ Plug 'vim-scripts/sessionman.vim'  " Session saving and loading
 Plug 'terryma/vim-multiple-cursors'  " Sublime Text style multiple cursors
 Plug 'jiangmiao/auto-pairs'  " Automatically insert closing braces and quotes
 Plug 'tpope/vim-repeat'  " Repeat support for plugin mappings
-Plug 'bling/vim-bufferline'  " Show list of buffers in the statusline
 
 " Javascript
 Plug 'elzr/vim-json'  " JSON support
 Plug 'jelera/vim-javascript-syntax'  " JS syntax
-Plug 'ternjs/tern_for_vim'  " JS code analysis (completion/refactoring)
 call plug#end()
 
 filetype plugin indent on
@@ -68,6 +66,10 @@ let g:ctrlp_working_path_mode = 'r'  " Use nearest .git directory as root
 
 " EasyMotion config
 map <Leader> <Plug>(easymotion-prefix)
+
+" Vim-over fixes
+cabbrev %s OverCommandLine<cr>%s
+cabbrev s OverCommandLine<cr>s
 
 " Misc options
 set backspace=indent,eol,start  " Fix backspace on newlines and tabs
