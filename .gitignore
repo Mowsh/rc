@@ -1,3 +1,9 @@
 # OSX stuff
 .DS_Store
 
+# Vim stuff
+.vim/sessions
+.vim/undo
+.vim/plugged
+.vim/.netrwhist
+
