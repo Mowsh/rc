@@ -3,9 +3,10 @@ filetype off
 
 " Plugins (vim-plug)
 call plug#begin()
+
 Plug 'tpope/vim-sensible'  " Some sensible default settings
 Plug 'bling/vim-airline'  " Better status line
-Plug 'kien/ctrlp.vim'  " Fuzzy searching for opening files quickly
+Plug 'ctrlpvim/ctrlp.vim'  " Fuzzy searching for opening files quickly
 Plug 'tpope/vim-surround'  " Surround text in braces, quotes etc
 Plug 'scrooloose/syntastic'  " Syntax hints
 Plug 'Lokaltog/vim-easymotion'  " Quickly move around files
