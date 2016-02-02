@@ -38,6 +38,8 @@ call plug#end()
 
 filetype plugin indent on
 
+let g:plug_timeout = 6000
+
 " Leader
 let mapleader=','
 let g:mapleader=','
