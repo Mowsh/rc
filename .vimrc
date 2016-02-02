@@ -27,6 +27,13 @@ Plug 'tpope/vim-repeat'  " Repeat support for plugin mappings
 " Javascript
 Plug 'elzr/vim-json'  " JSON support
 Plug 'jelera/vim-javascript-syntax'  " JS syntax
+
+" HTML
+Plug 'amirh/HTML-AutoCloseTag'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'mattn/emmet-vim'
+
 call plug#end()
 
 filetype plugin indent on
