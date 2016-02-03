@@ -154,3 +154,5 @@ noremap = :bp<CR>
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 
+" Make build shortcut
+nnoremap <F5> :make<CR>
