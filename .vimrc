@@ -31,7 +31,7 @@ Plug 'jelera/vim-javascript-syntax'  " JS syntax
 " HTML
 Plug 'amirh/HTML-AutoCloseTag'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque'
+" Plug 'gorodinskiy/vim-coloresque'  " Disabled until author removed isk+=.
 Plug 'mattn/emmet-vim'
 
 call plug#end()
