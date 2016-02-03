@@ -81,6 +81,9 @@ map <Leader> <Plug>(easymotion-prefix)
 cabbrev %s OverCommandLine<cr>%s
 cabbrev s OverCommandLine<cr>s
 
+" auto-pairs fixes
+let AutoPairsCenterLine = 0  " Don't center screen on line when creating a pair
+
 " Misc options
 set backspace=indent,eol,start  " Fix backspace on newlines and tabs
 set showcmd  " Show information about the current command
