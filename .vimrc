@@ -1,44 +1,16 @@
-set nocompatible
-filetype off
-
-" Plugins (vim-plug)
-call plug#begin()
-
-Plug 'tpope/vim-sensible'  " Some sensible default settings
-Plug 'bling/vim-airline'  " Better status line
-Plug 'ctrlpvim/ctrlp.vim'  " Fuzzy searching for opening files quickly
-Plug 'tpope/vim-surround'  " Surround text in braces, quotes etc
-Plug 'scrooloose/syntastic'  " Syntax hints
-Plug 'Lokaltog/vim-easymotion'  " Quickly move around files
-Plug 'myusuf3/numbers.vim'  " Smart toggle between relativenumbers
-Plug 'Valloric/YouCompleteMe'  " Autocompletion engine
-Plug 'tpope/vim-fugitive'  " Git integration
-Plug 'tpope/vim-commentary'  " Comment out with `gc`
-Plug 'luochen1990/rainbow'  " Colour parentheses depending on block depth
-Plug 'gcmt/wildfire.vim'  " Press enter to select closest text object
-Plug 'osyo-manga/vim-over'  " Better find and replace (autocompletion and highlighting)
-Plug 'airblade/vim-gitgutter'  " Git diff symbols in the gutter
-Plug 'nathanaelkane/vim-indent-guides'  " Indent guide lines
-Plug 'vim-scripts/sessionman.vim'  " Session saving and loading
-Plug 'terryma/vim-multiple-cursors'  " Sublime Text style multiple cursors
-Plug 'jiangmiao/auto-pairs'  " Automatically insert closing braces and quotes
-Plug 'tpope/vim-repeat'  " Repeat support for plugin mappings
-
-" Javascript
-Plug 'elzr/vim-json'  " JSON support
-Plug 'jelera/vim-javascript-syntax'  " JS syntax
-
-" HTML
-Plug 'amirh/HTML-AutoCloseTag'
-Plug 'hail2u/vim-css3-syntax'
-" Plug 'gorodinskiy/vim-coloresque'  " Disabled until author removed isk+=.
-Plug 'mattn/emmet-vim'
-
-call plug#end()
-
 filetype plugin indent on
 
-let g:plug_timeout = 6000
+" Plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'kien/ctrlp.vim'
+Plug 'bling/vim-airline'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'airblade/vim-gitgutter'
+Plug 'gcmt/wildfire.vim'
+
+call plug#end()
 
 " Leader
 let mapleader=','
@@ -49,40 +21,10 @@ set ttimeout
 
 " Syntax Highlighting / Theme
 syntax enable
-set background=dark
-colorscheme Tomorrow-Night-Eighties
-let g:airline_theme='tomorrow'
-set guifont=Monaco\ for\ Powerline:h12
-set linespace=-1
+colorscheme darcula
 
-" Airline config
-let g:airline_powerline_fonts = 1  " Enable patched fonts
 set laststatus=2  " Always show status bar
-" set noshowmode  " Disable default mode indicator
 set timeoutlen=50  " Fix delay when leaving insert mode
-" let g:airline#extensions#tabline#enabled = 1  " Enable tabline
-
-" Syntastic config
-let g:syntastic_check_on_wq = 0  " Don't run a check on :wq
-let g:syntastic_javascript_checkers = ['jsxhint']
-
-" CtrlP config
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site|bower_components|node_modules)$',
-  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-\}  " Ignore vcs directories and _site
-
-let g:ctrlp_working_path_mode = 'r'  " Use nearest .git directory as root
-
-" EasyMotion config
-map <Leader> <Plug>(easymotion-prefix)
-
-" Vim-over fixes
-cabbrev %s OverCommandLine<cr>%s
-cabbrev s OverCommandLine<cr>s
-
-" auto-pairs fixes
-let AutoPairsCenterLine = 0  " Don't center screen on line when creating a pair
 
 " Misc options
 set backspace=indent,eol,start  " Fix backspace on newlines and tabs
@@ -133,10 +75,14 @@ set nobomb
 set fileencodings=ucs-bom,utf-8,iso-8859-1
 
 " GUI and mouse
-set ttymouse=xterm2
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 set mouse=a
 set guioptions-=L  " Remove left scrollbar
 set guioptions-=r  " Remove right scrollbar
+set guioptions-=m  " Remove the menubar
+set guioptions-=T  " Remove the toolbar
 
 " Tab completion on vim command line
 set wildmenu  " Enable zsh style completion menu
@@ -146,13 +92,40 @@ set wildmode=full
 set complete-=i
 set completeopt-=preview
 
+" Disable silly airline seperators
+let g:airline_powerline_fonts=0
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+
+" Easymotion config
+let g:EasyMotion_do_mapping = 0
+map <Space> <Plug>(easymotion-prefix)
+
+" CtrlP Ignore
+set wildignore+=*/target/*
+set wildignore+=*/bin/*
+
 " -/= to navigate tabs
 noremap - :bn<CR>
 noremap = :bp<CR>
 
 " Highlight characters past the 80 column limit
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+highlight OverLength ctermbg=black ctermfg=white guibg=#592929
+match OverLength /\%81v./
 
 " Make build shortcut
 nnoremap <F5> :make<CR>
+
+" WritingMode command
+fun! WritingMode( arg ) "{{{
+    set wrap
+    set linebreak
+    highlight OverLength none
+    noremap  <buffer> <silent> k gk
+    noremap  <buffer> <silent> j gj
+    noremap  <buffer> <silent> 0 g0
+    noremap  <buffer> <silent> $ g$
+endfunction "}}}
+
+command! -nargs=* WritingMode call WritingMode( '<args>' )
+
