@@ -1,6 +1,10 @@
 # Path to oh-my-zsh
 export ZSH=$HOME/.oh-my-zsh
 
+# PROMPT='${debian_chroot:+($debian_chroot)}%{$bold_color$fg[green]%}%n@%m%{$reset_color%}:%{$bold_color$fg[blue]%}%~%{$reset_color%}%# '
+ZSH_THEME="custom"
+PROMPT='%F{green}test%f'
+
 # Show ... while waiting on autocomplete
 COMPLETION_WAITING_DOTS="true"
 
@@ -53,36 +57,22 @@ autoload -Uz compinit
 compinit
 
 # Plugins
-plugins=(git brew sudo tmuxinator)
+plugins=(git sudo tmuxinator colors)
 
 source $ZSH/oh-my-zsh.sh
 
-# Prompt
-
-function _prompt_char() {
-  if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    echo "%{%F{blue}%}±%{%f%k%b%} "
-  else
-    echo ''
-  fi
-}
-
-ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%k%b%K{${black}}%B%F{green}%}]"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%k%b%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-
-PROMPT='%{%f%k%b%}
-%{%K{${black}}%B%F{green}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{${black}}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
-$(_prompt_char)%# '
-
-RPROMPT='%D{%H:%M:%S}'
-
 # Custom alias
-export EDITOR=/usr/local/bin/vim
+export EDITOR=vim
 export PAGER=less
 export LESS=RSM
-export GOPATH=/Users/mowsh/gocode
 
 # Enable tmuxinator plugin completion for mux shortcut
 alias mux=tmuxinator
+
+
+# Bash completions
+autoload bashcompinit
+bashcompinit
+
+
+
