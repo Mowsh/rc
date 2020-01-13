@@ -104,6 +104,7 @@ map <Space> <Plug>(easymotion-prefix)
 " CtrlP Ignore
 set wildignore+=*/target/*
 set wildignore+=*/bin/*
+set wildignore+=*/node_modules/*
 
 " -/= to navigate tabs
 noremap - :bn<CR>
@@ -115,6 +116,10 @@ match OverLength /\%81v./
 
 " Make build shortcut
 nnoremap <F5> :make<CR>
+
+" Disable q: and Q
+nnoremap q: <nop>
+nnoremap Q <nop>
 
 " WritingMode command
 fun! WritingMode( arg ) "{{{
